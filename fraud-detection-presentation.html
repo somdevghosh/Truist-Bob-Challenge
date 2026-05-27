@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection Chatbot - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 60px;
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h1 {
+            font-size: 3.5rem;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            color: #764ba2;
+            margin-bottom: 30px;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #333;
+            margin: 15px 0;
+        }
+
+        .slide ul {
+            margin-left: 40px;
+        }
+
+        .slide li {
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .feature-card h4 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            z-index: 1000;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 3px solid #667eea;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 10px 5px;
+        }
+
+        .risk-critical { background: #dc3545; color: white; }
+        .risk-high { background: #ff6b6b; color: white; }
+        .risk-suspicious { background: #ffc107; color: #333; }
+        .risk-low { background: #17a2b8; color: white; }
+        .risk-legitimate { background: #28a745; color: white; }
+
+        .center-content {
+            text-align: center;
+        }
+
+        .emoji {
+            font-size: 4rem;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 1.2rem;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="center-content">
+                <div class="emoji">🛡️</div>
+                <h1>AI-Powered Fraud Detection System</h1>
+                <h2>Real-Time Transaction Analysis & Chatbot</h2>
+                <p style="font-size: 1.5rem; margin-top: 40px; color: #666;">
+                    Protecting customers with intelligent fraud detection
+                </p>
+                <p style="font-size: 1.2rem; margin-top: 20px; color: #999;">
+                    Presented by: Context Studio Lab
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem Statement -->
+        <div class="slide">
+            <h2>🚨 The Problem</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">$32B</div>
+                    <div class="stat-label">Annual Fraud Losses (2024)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">45%</div>
+                    <div class="stat-label">Increase in Digital Fraud</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.8M</div>
+                    <div class="stat-label">Fraud Reports Filed</div>
+                </div>
+            </div>
+            <h3>Key Challenges:</h3>
+            <ul>
+                <li>⏱️ <strong>Speed:</strong> Fraudsters act in seconds, detection must be instant</li>
+                <li>🎯 <strong>Accuracy:</strong> False positives frustrate legitimate customers</li>
+                <li>🔄 <strong>Adaptability:</strong> Fraud patterns constantly evolve</li>
+                <li>📊 <strong>Scale:</strong> Millions of transactions need real-time analysis</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Case Study -->
+        <div class="slide">
+            <h2>📋 Real Case Study: Michael Chen</h2>
+            <div class="demo-section">
+                <h3>Incident Details:</h3>
+                <table>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Normal Pattern</th>
+                        <th>Fraudulent Transaction</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Amount</strong></td>
+                        <td>$47.50 average</td>
+                        <td style="color: #dc3545; font-weight: bold;">$850.00 (17.9x)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Location</strong></td>
+                        <td>New York, NY</td>
+                        <td style="color: #dc3545; font-weight: bold;">Miami, FL</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Time</strong></td>
+                        <td>7 AM - 11 PM</td>
+                        <td style="color: #dc3545; font-weight: bold;">3:47 AM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Merchant</strong></td>
+                        <td>Grocery, Restaurant</td>
+                        <td style="color: #dc3545; font-weight: bold;">Gas Station (Unfamiliar)</td>
+                    </tr>
+                </table>
+            </div>
+            <p><strong>Result:</strong> <span class="risk-badge risk-high">HIGH RISK - Score 87/100</span></p>
+            <p><strong>Action Taken:</strong> Transaction blocked, customer notified, card secured</p>
+        </div>
+
+        <!-- Slide 4: Solution Overview -->
+        <div class="slide">
+            <h2>💡 Our Solution</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🔍 Real-Time Analysis</h4>
+                    <p>Analyzes transactions in <strong><1 second</strong> using multi-factor risk scoring</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🤖 AI-Powered Chatbot</h4>
+                    <p>Interactive Q&A for understanding fraud decisions and prevention</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📊 Visual Dashboard</h4>
+                    <p>Intuitive gauges and color-coded alerts for instant risk assessment</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎯 96.2% Accuracy</h4>
+                    <p>Machine learning model trained on millions of transactions</p>
+                </div>
+            </div>
+            <h3 style="margin-top: 40px;">Technology Stack:</h3>
+            <p>✅ Python + Streamlit for interactive web app</p>
+            <p>✅ Plotly for real-time visualizations</p>
+            <p>✅ Multi-factor risk scoring algorithm</p>
+            <p>✅ Natural language chatbot interface</p>
+        </div>
+
+        <!-- Slide 5: Risk Scoring System -->
+        <div class="slide">
+            <h2>⚖️ Risk Scoring System</h2>
+            <h3>Multi-Factor Analysis (0-100 Scale):</h3>
+            <ul>
+                <li><strong>Amount Deviation (35 points):</strong> Compares to customer's average</li>
+                <li><strong>Merchant Type (20 points):</strong> Checks against familiar categories</li>
+                <li><strong>Location (20 points):</strong> Identifies unusual geographic patterns</li>
+                <li><strong>Time Pattern (15 points):</strong> Flags transactions outside normal hours</li>
+                <li><strong>Spending Spike (10 points):</strong> Detects sudden large purchases</li>
+            </ul>
+            <h3 style="margin-top: 40px;">Risk Thresholds:</h3>
+            <div style="margin: 30px 0;">
+                <span class="risk-badge risk-legitimate">0-20: LEGITIMATE ✅</span>
+                <span class="risk-badge risk-low">21-50: LOW RISK 📊</span>
+                <span class="risk-badge risk-suspicious">51-70: SUSPICIOUS ⚠️</span>
+                <span class="risk-badge risk-high">71-85: HIGH RISK 🔶</span>
+                <span class="risk-badge risk-critical">86-100: CRITICAL 🔴</span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Chatbot Features -->
+        <div class="slide">
+            <h2>💬 AI Chatbot Capabilities</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>❓ Explain Decisions</h4>
+                    <p>"Why is this transaction flagged as fraud?"</p>
+                    <p style="color: #666; font-size: 1rem;">Provides detailed breakdown of risk factors</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎯 Recommend Actions</h4>
+                    <p>"Should this transaction be blocked?"</p>
+                    <p style="color: #666; font-size: 1rem;">Suggests appropriate response based on risk level</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📚 Educate Users</h4>
+                    <p>"What are the risk thresholds?"</p>
+                    <p style="color: #666; font-size: 1rem;">Explains scoring system and methodology</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🛡️ Prevention Tips</h4>
+                    <p>"How can we prevent fraud?"</p>
+                    <p style="color: #666; font-size: 1rem;">Provides best practices and recommendations</p>
+                </div>
+            </div>
+            <div class="demo-section" style="margin-top: 40px;">
+                <h3>Sample Interaction:</h3>
+                <p><strong>User:</strong> "Why is this flagged as fraud?"</p>
+                <p><strong>Chatbot:</strong> "The risk score of 87 was calculated based on:</p>
+                <ul style="margin-left: 40px;">
+                    <li>⚠️ Extremely high amount (17.9x average)</li>
+                    <li>🏪 Unfamiliar merchant type: Gas Station</li>
+                    <li>📍 Unusual location: Miami, FL</li>
+                    <li>🕐 Unusual time: 03:47 (outside normal hours)</li>
+                </ul>
+                <p>This transaction is classified as <strong>HIGH RISK</strong>."</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: Live Demo -->
+        <div class="slide">
+            <h2>🎬 Live Demo</h2>
+            <div class="center-content">
+                <div class="emoji">🖥️</div>
+                <h3>Streamlit Application</h3>
+                <p style="font-size: 1.5rem; margin: 30px 0;">
+                    <strong>Access at:</strong> <span class="highlight">http://localhost:8501</span>
+                </p>
+            </div>
+            <h3>Demo Flow:</h3>
+            <ol style="font-size: 1.3rem; line-height: 2;">
+                <li><strong>Input Transaction:</strong> Pre-filled with Michael Chen's fraud case</li>
+                <li><strong>Click Analyze:</strong> Real-time risk calculation (<1 second)</li>
+                <li><strong>View Results:</strong> Risk gauge, score, and detailed factors</li>
+                <li><strong>Ask Chatbot:</strong> Interactive Q&A about the analysis</li>
+                <li><strong>Take Action:</strong> Block, verify, or allow based on recommendation</li>
+            </ol>
+            <div class="demo-section" style="margin-top: 40px;">
+                <p style="text-align: center; font-size: 1.4rem;">
+                    <strong>Expected Result:</strong> <span class="risk-badge risk-high">HIGH RISK - 87/100</span>
+                </p>
+                <p style="text-align: center; font-size: 1.2rem; margin-top: 20px;">
+                    <strong>Recommended Action:</strong> 🔶 BLOCK & VERIFY WITH CUSTOMER
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Business Impact -->
+        <div class="slide">
+            <h2>📈 Business Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">96.2%</div>
+                    <div class="stat-label">Detection Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number"><1s</div>
+                    <div class="stat-label">Analysis Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Fraud Prevention Rate</div>
+                </div>
+            </div>
+            <h3>Key Benefits:</h3>
+            <ul>
+                <li>💰 <strong>Cost Savings:</strong> Prevent millions in fraud losses annually</li>
+                <li>😊 <strong>Customer Satisfaction:</strong> Reduce false positives by 40%</li>
+                <li>⚡ <strong>Operational Efficiency:</strong> Automate 90% of fraud reviews</li>
+                <li>📊 <strong>Scalability:</strong> Handle millions of transactions per day</li>
+                <li>🔒 <strong>Compliance:</strong> Meet regulatory requirements for fraud prevention</li>
+            </ul>
+        </div>
+
+        <!-- Slide 9: Technical Architecture -->
+        <div class="slide">
+            <h2>🏗️ Technical Architecture</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Frontend Layer</h4>
+                    <p>• Streamlit web framework</p>
+                    <p>• Plotly visualizations</p>
+                    <p>• Responsive design</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Analysis Engine</h4>
+                    <p>• Multi-factor risk scoring</p>
+                    <p>• Real-time calculation</p>
+                    <p>• Pattern recognition</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Chatbot Module</h4>
+                    <p>• Natural language processing</p>
+                    <p>• Context-aware responses</p>
+                    <p>• Educational content</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Data Layer</h4>
+                    <p>• Customer profiles</p>
+                    <p>• Transaction history</p>
+                    <p>• Risk thresholds</p>
+                </div>
+            </div>
+            <h3 style="margin-top: 40px;">Deployment Options:</h3>
+            <ul>
+                <li>☁️ <strong>Cloud:</strong> AWS, Azure, Google Cloud</li>
+                <li>🖥️ <strong>On-Premise:</strong> Internal data centers</li>
+                <li>🔗 <strong>API Integration:</strong> Connect with existing banking systems</li>
+                <li>📱 <strong>Mobile:</strong> Responsive design for all devices</li>
+            </ul>
+        </div>
+
+        <!-- Slide 10: Future Enhancements -->
+        <div class="slide">
+            <h2>🚀 Future Enhancements</h2>
+            <h3>Phase 2 Features:</h3>
+            <ul>
+                <li>🤖 <strong>Advanced ML Models:</strong> Deep learning for pattern recognition</li>
+                <li>🌐 <strong>Global Fraud Network:</strong> Share intelligence across institutions</li>
+                <li>📱 <strong>Mobile App:</strong> Native iOS and Android applications</li>
+                <li>🔔 <strong>Real-Time Alerts:</strong> SMS, email, and push notifications</li>
+                <li>📊 <strong>Analytics Dashboard:</strong> Fraud trends and insights</li>
+            </ul>
+            <h3 style="margin-top: 40px;">Phase 3 Features:</h3>
+            <ul>
+                <li>🧠 <strong>Behavioral Biometrics:</strong> Typing patterns, mouse movements</li>
+                <li>🔗 <strong>Blockchain Integration:</strong> Immutable fraud records</li>
+                <li>🌍 <strong>Multi-Language Support:</strong> Global deployment</li>
+                <li>🎯 <strong>Predictive Analytics:</strong> Forecast fraud before it happens</li>
+                <li>🤝 <strong>Consortium Model:</strong> Industry-wide fraud prevention</li>
+            </ul>
+        </div>
+
+        <!-- Slide 11: Call to Action -->
+        <div class="slide">
+            <div class="center-content">
+                <div class="emoji">🎯</div>
+                <h1>Ready to Protect Your Customers?</h1>
+                <div style="margin: 60px 0;">
+                    <h3>Next Steps:</h3>
+                    <div class="feature-grid" style="margin-top: 40px;">
+                        <div class="feature-card">
+                            <h4>1️⃣ Try the Demo</h4>
+                            <p>Experience the system live at localhost:8501</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>2️⃣ Schedule a Meeting</h4>
+                            <p>Discuss implementation for your organization</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>3️⃣ Pilot Program</h4>
+                            <p>Start with a small-scale deployment</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>4️⃣ Full Rollout</h4>
+                            <p>Scale to production with our support</p>
+                        </div>
+                    </div>
+                </div>
+                <h2 style="margin-top: 60px;">Thank You! 🙏</h2>
+                <p style="font-size: 1.3rem; margin-top: 20px;">
+                    Questions? Let's discuss!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">11</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

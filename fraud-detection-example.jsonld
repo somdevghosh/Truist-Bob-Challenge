@@ -1,0 +1,288 @@
+{
+  "@context": {
+    "sro": "http://example.org/sro#",
+    "schema": "http://schema.org/",
+    "id": "@id",
+    "type": "@type"
+  },
+  "@graph": [
+    {
+      "id": "fraud-detection:goal-001",
+      "type": "sro:BusinessGoal",
+      "sro:goalId": "550e8400-e29b-41d4-a716-446655440001",
+      "sro:goalName": "Prevent Financial Fraud",
+      "schema:description": "Detect and prevent fraudulent transactions in real-time to protect customers and reduce financial losses",
+      "sro:goalType": "BUSINESS",
+      "sro:priority": "HIGH",
+      "sro:status": "ACCEPTED",
+      "sro:successCriteria": "Reduce fraud losses by 80%, detect 95% of fraudulent transactions within 1 second"
+    },
+    {
+      "id": "fraud-detection:stakeholder-001",
+      "type": "sro:Stakeholder",
+      "sro:stakeholderId": "550e8400-e29b-41d4-a716-446655440010",
+      "sro:stakeholderName": "Sarah Johnson",
+      "sro:role": "PRODUCT_OWNER",
+      "sro:organization": "Banking Security Division",
+      "sro:contactInfo": "sarah.johnson@bank.example.com",
+      "sro:influence": "HIGH",
+      "sro:interest": "HIGH"
+    },
+    {
+      "id": "fraud-detection:stakeholder-002",
+      "type": "sro:Stakeholder",
+      "sro:stakeholderId": "550e8400-e29b-41d4-a716-446655440011",
+      "sro:stakeholderName": "Michael Chen",
+      "sro:role": "END_USER",
+      "sro:organization": "Bank Customer",
+      "sro:influence": "MEDIUM",
+      "sro:interest": "HIGH"
+    },
+    {
+      "id": "fraud-detection:stakeholder-003",
+      "type": "sro:Stakeholder",
+      "sro:stakeholderId": "550e8400-e29b-41d4-a716-446655440012",
+      "sro:stakeholderName": "Alex Rivera",
+      "sro:role": "DEVELOPER",
+      "sro:organization": "Engineering Team",
+      "sro:contactInfo": "alex.rivera@bank.example.com",
+      "sro:influence": "MEDIUM",
+      "sro:interest": "MEDIUM"
+    },
+    {
+      "id": "fraud-detection:req-func-001",
+      "type": "sro:FunctionalRequirement",
+      "sro:requirementId": "550e8400-e29b-41d4-a716-446655440100",
+      "sro:requirementCode": "FR-FD-001",
+      "schema:name": "Real-time Transaction Monitoring",
+      "schema:description": "The system shall monitor all bank transactions in real-time and analyze them for fraudulent patterns",
+      "sro:rationale": "Early detection of fraud prevents financial losses and protects customer accounts",
+      "sro:acceptanceCriteria": "System processes 100% of transactions within 500ms, flags suspicious transactions for review",
+      "sro:priority": "MUST",
+      "sro:status": "APPROVED",
+      "sro:inputConditions": "Transaction data including amount, merchant, location, timestamp",
+      "sro:outputConditions": "Fraud risk score (0-100), alert if score > 70",
+      "sro:businessRule": "Transactions exceeding 3x average spending or from high-risk locations trigger immediate review"
+    },
+    {
+      "id": "fraud-detection:req-func-002",
+      "type": "sro:FunctionalRequirement",
+      "sro:requirementId": "550e8400-e29b-41d4-a716-446655440101",
+      "sro:requirementCode": "FR-FD-002",
+      "schema:name": "Bank Statement Analysis",
+      "schema:description": "The system shall analyze bank statements to identify unusual patterns, duplicate charges, and unauthorized transactions",
+      "sro:rationale": "Comprehensive statement analysis helps detect fraud that may not be caught in real-time",
+      "sro:acceptanceCriteria": "System analyzes statements daily, identifies anomalies with 95% accuracy, generates detailed reports",
+      "sro:priority": "MUST",
+      "sro:status": "IMPLEMENTED",
+      "sro:inputConditions": "Bank statement data for past 90 days, customer spending profile",
+      "sro:outputConditions": "List of suspicious transactions, anomaly report, recommended actions",
+      "sro:businessRule": "Flag transactions that deviate >2 standard deviations from customer's normal behavior"
+    },
+    {
+      "id": "fraud-detection:req-func-003",
+      "type": "sro:FunctionalRequirement",
+      "sro:requirementId": "550e8400-e29b-41d4-a716-446655440102",
+      "sro:requirementCode": "FR-FD-003",
+      "schema:name": "Customer Notification System",
+      "schema:description": "The system shall notify customers immediately when suspicious activity is detected on their account",
+      "sro:rationale": "Quick customer notification enables rapid response to potential fraud",
+      "sro:acceptanceCriteria": "Notifications sent within 30 seconds of detection via SMS, email, and push notification",
+      "sro:priority": "MUST",
+      "sro:status": "APPROVED",
+      "sro:inputConditions": "Fraud alert, customer contact preferences",
+      "sro:outputConditions": "Multi-channel notification sent, delivery confirmation received"
+    },
+    {
+      "id": "fraud-detection:req-perf-001",
+      "type": "sro:PerformanceRequirement",
+      "sro:requirementId": "550e8400-e29b-41d4-a716-446655440200",
+      "sro:requirementCode": "NFR-PERF-001",
+      "schema:name": "Transaction Processing Speed",
+      "schema:description": "The fraud detection system shall process each transaction within 500 milliseconds",
+      "sro:qualityAttribute": "PERFORMANCE",
+      "sro:performanceMetric": "RESPONSE_TIME",
+      "sro:priority": "MUST",
+      "sro:status": "IMPLEMENTED",
+      "sro:targetValue": "500ms average, 1000ms 99th percentile",
+      "sro:measurementConditions": "Under normal load of 10,000 transactions per second",
+      "sro:acceptableRange": "400-600ms average"
+    },
+    {
+      "id": "fraud-detection:req-sec-001",
+      "type": "sro:SecurityRequirement",
+      "sro:requirementId": "550e8400-e29b-41d4-a716-446655440300",
+      "sro:requirementCode": "NFR-SEC-001",
+      "schema:name": "Data Encryption",
+      "schema:description": "All customer financial data and transaction records shall be encrypted at rest and in transit using AES-256",
+      "sro:qualityAttribute": "SECURITY",
+      "sro:securityCategory": "ENCRYPTION",
+      "sro:priority": "MUST",
+      "sro:status": "IMPLEMENTED",
+      "sro:threatModel": "Protect against data breaches and unauthorized access to sensitive financial information",
+      "sro:complianceStandard": "PCI-DSS 4.0, GDPR Article 32"
+    },
+    {
+      "id": "fraud-detection:req-sec-002",
+      "type": "sro:SecurityRequirement",
+      "sro:requirementId": "550e8400-e29b-41d4-a716-446655440301",
+      "sro:requirementCode": "NFR-SEC-002",
+      "schema:name": "Audit Logging",
+      "schema:description": "The system shall maintain comprehensive audit logs of all fraud detection activities and access to customer data",
+      "sro:qualityAttribute": "SECURITY",
+      "sro:securityCategory": "AUDIT",
+      "sro:priority": "MUST",
+      "sro:status": "APPROVED",
+      "sro:threatModel": "Enable forensic analysis and compliance verification",
+      "sro:complianceStandard": "SOX, PCI-DSS 4.0 Requirement 10"
+    },
+    {
+      "id": "fraud-detection:usecase-001",
+      "type": "sro:UseCase",
+      "sro:useCaseId": "550e8400-e29b-41d4-a716-446655440400",
+      "sro:useCaseCode": "UC-FD-001",
+      "schema:name": "Check Bank Statement for Fraud",
+      "schema:description": "Customer reviews their bank statement and the system highlights potentially fraudulent transactions",
+      "sro:primaryActor": "Bank Customer",
+      "sro:preconditions": "Customer is logged into online banking, has transactions in the past 90 days",
+      "sro:postconditions": "Customer has reviewed flagged transactions, confirmed or disputed suspicious items",
+      "sro:mainFlow": "1. Customer navigates to statement view\n2. System retrieves transaction history\n3. System analyzes transactions using fraud detection algorithms\n4. System highlights suspicious transactions with risk indicators\n5. Customer reviews highlighted transactions\n6. Customer confirms legitimate transactions or reports fraud\n7. System updates fraud detection model based on feedback",
+      "sro:alternativeFlows": "3a. No suspicious transactions found - display confirmation message\n6a. Customer disputes transaction - initiate fraud investigation workflow",
+      "sro:exceptionFlows": "2a. System unavailable - display error message and retry option\n3a. Analysis timeout - process in background and notify customer when complete",
+      "sro:priority": "HIGH"
+    },
+    {
+      "id": "fraud-detection:component-001",
+      "type": "sro:SystemComponent",
+      "sro:componentId": "550e8400-e29b-41d4-a716-446655440500",
+      "sro:componentName": "Fraud Detection Engine",
+      "schema:description": "Machine learning-based engine that analyzes transactions and identifies fraud patterns",
+      "sro:componentType": "SERVICE",
+      "sro:technology": "Python, TensorFlow, Apache Kafka",
+      "sro:version": "2.1.0",
+      "sro:status": "DEPLOYED"
+    },
+    {
+      "id": "fraud-detection:component-002",
+      "type": "sro:SystemComponent",
+      "sro:componentId": "550e8400-e29b-41d4-a716-446655440501",
+      "sro:componentName": "Statement Analysis Module",
+      "schema:description": "Analyzes bank statements for anomalies and generates fraud reports",
+      "sro:componentType": "MODULE",
+      "sro:technology": "Java, Spring Boot, PostgreSQL",
+      "sro:version": "1.5.2",
+      "sro:status": "DEPLOYED"
+    },
+    {
+      "id": "fraud-detection:test-001",
+      "type": "sro:TestCase",
+      "sro:testCaseId": "550e8400-e29b-41d4-a716-446655440600",
+      "sro:testCaseCode": "TC-FD-001",
+      "schema:name": "Verify Fraud Detection for Unusual Transaction",
+      "schema:description": "Test that the system correctly identifies a transaction that is 5x the customer's average spending",
+      "sro:testType": "INTEGRATION",
+      "sro:status": "PASSED",
+      "sro:preconditions": "Test customer account with 90 days of transaction history, average transaction $50",
+      "sro:testSteps": "1. Submit transaction for $250 from new merchant\n2. Wait for fraud detection processing\n3. Verify fraud alert is generated\n4. Check risk score is above threshold",
+      "sro:expectedResult": "Fraud alert generated with risk score > 70, customer notification sent within 30 seconds",
+      "sro:actualResult": "Fraud alert generated with risk score 85, notification sent in 12 seconds",
+      "sro:priority": "HIGH",
+      "sro:automationStatus": "AUTOMATED"
+    },
+    {
+      "id": "fraud-detection:test-002",
+      "type": "sro:TestCase",
+      "sro:testCaseId": "550e8400-e29b-41d4-a716-446655440601",
+      "sro:testCaseCode": "TC-FD-002",
+      "schema:name": "Verify Statement Analysis Performance",
+      "schema:description": "Test that statement analysis completes within acceptable time limits",
+      "sro:testType": "PERFORMANCE",
+      "sro:status": "PASSED",
+      "sro:preconditions": "Test dataset with 1000 customer statements, each with 100-500 transactions",
+      "sro:testSteps": "1. Trigger batch statement analysis\n2. Monitor processing time\n3. Verify all statements processed\n4. Check analysis accuracy",
+      "sro:expectedResult": "All statements analyzed within 5 minutes, 95% accuracy in anomaly detection",
+      "sro:actualResult": "Analysis completed in 4 minutes 23 seconds, 96.2% accuracy achieved",
+      "sro:priority": "HIGH",
+      "sro:automationStatus": "AUTOMATED"
+    },
+    {
+      "id": "fraud-detection:op-refines-001",
+      "type": "sro:Refines",
+      "sro:from": "fraud-detection:req-func-001",
+      "sro:to": "fraud-detection:goal-001"
+    },
+    {
+      "id": "fraud-detection:op-refines-002",
+      "type": "sro:Refines",
+      "sro:from": "fraud-detection:req-func-002",
+      "sro:to": "fraud-detection:goal-001"
+    },
+    {
+      "id": "fraud-detection:op-refines-003",
+      "type": "sro:Refines",
+      "sro:from": "fraud-detection:req-func-003",
+      "sro:to": "fraud-detection:goal-001"
+    },
+    {
+      "id": "fraud-detection:op-hassource-001",
+      "type": "sro:HasSource",
+      "sro:from": "fraud-detection:req-func-001",
+      "sro:to": "fraud-detection:stakeholder-001"
+    },
+    {
+      "id": "fraud-detection:op-hassource-002",
+      "type": "sro:HasSource",
+      "sro:from": "fraud-detection:req-func-002",
+      "sro:to": "fraud-detection:stakeholder-002"
+    },
+    {
+      "id": "fraud-detection:op-dependson-001",
+      "type": "sro:DependsOn",
+      "sro:from": "fraud-detection:req-func-003",
+      "sro:to": "fraud-detection:req-func-001",
+      "schema:description": "Customer notification depends on fraud detection completing first"
+    },
+    {
+      "id": "fraud-detection:op-realizedby-001",
+      "type": "sro:RealizedBy",
+      "sro:from": "fraud-detection:req-func-001",
+      "sro:to": "fraud-detection:component-001"
+    },
+    {
+      "id": "fraud-detection:op-realizedby-002",
+      "type": "sro:RealizedBy",
+      "sro:from": "fraud-detection:req-func-002",
+      "sro:to": "fraud-detection:component-002"
+    },
+    {
+      "id": "fraud-detection:op-verifiedby-001",
+      "type": "sro:VerifiedBy",
+      "sro:from": "fraud-detection:req-func-001",
+      "sro:to": "fraud-detection:test-001"
+    },
+    {
+      "id": "fraud-detection:op-verifiedby-002",
+      "type": "sro:VerifiedBy",
+      "sro:from": "fraud-detection:req-func-002",
+      "sro:to": "fraud-detection:test-002"
+    },
+    {
+      "id": "fraud-detection:op-verifiedby-003",
+      "type": "sro:VerifiedBy",
+      "sro:from": "fraud-detection:req-perf-001",
+      "sro:to": "fraud-detection:test-002"
+    },
+    {
+      "id": "fraud-detection:op-realizes-001",
+      "type": "sro:Realizes",
+      "sro:from": "fraud-detection:usecase-001",
+      "sro:to": "fraud-detection:req-func-002"
+    },
+    {
+      "id": "fraud-detection:op-assignedto-001",
+      "type": "sro:AssignedTo",
+      "sro:from": "fraud-detection:req-func-001",
+      "sro:to": "fraud-detection:stakeholder-003"
+    }
+  ]
+}

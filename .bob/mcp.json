@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "context-studio": {
+      "type": "streamable-http",
+      "url": "CONTEXT_STUDIO_MCP_URL",
+      "headers": {
+        "Authorization": "Bearer <CONTEXT_STUDIO_MCP_GATEWAY_TOKEN>"
+      },
+      "disabled": false
+    }
+  }
+}

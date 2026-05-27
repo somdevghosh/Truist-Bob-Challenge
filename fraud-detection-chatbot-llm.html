@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Fraud Detection Assistant - LLM Powered</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 700px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .api-config {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .api-config input {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f5f5f5;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .alert-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .alert-box.danger {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .alert-box.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 10px;
+            background: white;
+            border-radius: 18px;
+            width: 60px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🛡️ Fraud Detection Assistant</h1>
+            <p>LLM-Powered Real-time Analysis</p>
+            <div class="api-config">
+                <label>OpenAI API Key:</label>
+                <input type="password" id="apiKey" placeholder="sk-..." value="">
+                <small style="display: block; margin-top: 5px;">Enter your OpenAI API key to enable LLM responses</small>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    👋 Hello! I'm your AI-powered Fraud Detection Assistant. 
+                    <br><br>
+                    <strong>Setup Required:</strong>
+                    <ol style="margin-top: 10px; padding-left: 20px;">
+                        <li>Enter your OpenAI API key above</li>
+                        <li>Ask me anything about fraud detection!</li>
+                    </ol>
+                    <br>
+                    I can analyze transactions, explain detection methods, and provide real-time insights using advanced AI.
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="userInput" placeholder="Ask me about fraud detection..." onkeypress="handleKeyPress(event)">
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Fraud case data for context
+        const fraudContext = `
+You are a Bank Fraud Detection Assistant. Use this case study data to answer questions:
+
+CUSTOMER PROFILE:
+- Name: Michael Chen
+- Account Type: Checking
+- Average Monthly Spending: $2,850
+- Average Transaction: $47.50
+- Normal Locations: New York, NY & Brooklyn, NY
+- Typical Merchants: Starbucks, Whole Foods, Amazon
+
+FRAUD INCIDENT (February 5, 2024):
+
+Transaction 1 (3:47 AM):
+- Amount: $850.00
+- Merchant: Shell Gas Station
+- Location: Miami, FL (1,280 miles from home)
+- Risk Score: 87/100
+- Red Flags: 17.9x average amount, unusual location, unusual time
+- Status: Completed (Loss)
+
+Transaction 2 (4:15 AM):
+- Amount: $1,247.50
+- Merchant: Walmart Supercenter
+- Location: Miami, FL
+- Risk Score: 95/100
+- Red Flags: 26.3x average amount, high velocity (2nd transaction in 30 min)
+- Status: BLOCKED
+
+RESULTS:
+- Fraud Prevented: $1,247.50
+- Fraud Loss: $850.00
+- Prevention Rate: 59.4%
+- Detection Time: 28 seconds
+- ML Model Accuracy: 96.2%
+
+DETECTION METHODS:
+1. Amount Deviation Analysis (flag if >10x average)
+2. Location Matching (flag if >500 miles)
+3. Time Pattern Analysis (flag unusual hours)
+4. Velocity Check (flag rapid transactions)
+5. Merchant Familiarity Check
+
+RISK SCORE THRESHOLDS:
+- 0-20: LEGITIMATE (Allow)
+- 21-50: LOW RISK (Monitor)
+- 51-70: SUSPICIOUS (Verify)
+- 71-85: HIGH RISK (Block & Verify)
+- 86-100: CRITICAL (Block Immediately)
+
+Answer questions clearly and concisely. Use the data above to provide specific examples.
+`;
+
+        function addMessage(content, isUser = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = content;
+            
+            messageDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typingIndicator').style.display = 'block';
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        function hideTyping() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        async function callOpenAI(userMessage) {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            
+            if (!apiKey) {
+                return "⚠️ Please enter your OpenAI API key in the header above to enable AI responses.";
+            }
+
+            try {
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-3.5-turbo',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: fraudContext
+                            },
+                            {
+                                role: 'user',
+                                content: userMessage
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 500
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error?.message || 'API request failed');
+                }
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+
+            } catch (error) {
+                console.error('OpenAI API Error:', error);
+                return `<div class="error-message">
+                    <strong>Error:</strong> ${error.message}
+                    <br><br>
+                    <strong>Troubleshooting:</strong>
+                    <ul style="margin-top: 5px; padding-left: 20px;">
+                        <li>Check your API key is correct</li>
+                        <li>Ensure you have API credits</li>
+                        <li>Verify internet connection</li>
+                    </ul>
+                </div>`;
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            addMessage(message, true);
+            input.value = '';
+            sendBtn.disabled = true;
+            
+            showTyping();
+            
+            try {
+                const response = await callOpenAI(message);
+                hideTyping();
+                addMessage(response, false);
+            } catch (error) {
+                hideTyping();
+                addMessage(`<div class="error-message">Sorry, I encountered an error. Please try again.</div>`, false);
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Save API key to localStorage
+        document.getElementById('apiKey').addEventListener('change', function() {
+            localStorage.setItem('openai_api_key', this.value);
+        });
+
+        // Load API key from localStorage
+        window.addEventListener('load', function() {
+            const savedKey = localStorage.getItem('openai_api_key');
+            if (savedKey) {
+                document.getElementById('apiKey').value = savedKey;
+            }
+        });
+    </script>
+</body>
+</html>

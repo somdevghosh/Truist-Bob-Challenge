@@ -1,0 +1,367 @@
+{
+  "customer": {
+    "customerId": "CUST-2024-001",
+    "name": "Michael Chen",
+    "accountNumber": "****5678",
+    "accountType": "Checking",
+    "statementPeriod": {
+      "startDate": "2024-02-01",
+      "endDate": "2024-02-29"
+    }
+  },
+  "customerProfile": {
+    "averageMonthlySpending": 2850.00,
+    "averageTransactionAmount": 47.50,
+    "typicalMerchantCategories": ["Grocery", "Gas Station", "Restaurant", "Online Retail"],
+    "typicalLocations": ["New York, NY", "Brooklyn, NY"],
+    "accountAge": "5 years",
+    "previousFraudIncidents": 0
+  },
+  "transactions": [
+    {
+      "transactionId": "TXN-20240201-001",
+      "date": "2024-02-01T08:15:23Z",
+      "merchant": "Starbucks Coffee",
+      "merchantCategory": "Restaurant",
+      "amount": 6.75,
+      "location": "New York, NY",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 5,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Normal",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass"
+      }
+    },
+    {
+      "transactionId": "TXN-20240201-002",
+      "date": "2024-02-01T12:45:10Z",
+      "merchant": "Whole Foods Market",
+      "merchantCategory": "Grocery",
+      "amount": 127.89,
+      "location": "Brooklyn, NY",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 8,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Normal",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass"
+      }
+    },
+    {
+      "transactionId": "TXN-20240203-001",
+      "date": "2024-02-03T14:22:45Z",
+      "merchant": "Amazon.com",
+      "merchantCategory": "Online Retail",
+      "amount": 89.99,
+      "location": "Online",
+      "transactionType": "Credit Card",
+      "fraudRiskScore": 12,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Normal",
+        "locationMatch": "N/A",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass"
+      }
+    },
+    {
+      "transactionId": "TXN-20240205-001",
+      "date": "2024-02-05T03:47:12Z",
+      "merchant": "Shell Gas Station",
+      "merchantCategory": "Gas Station",
+      "amount": 850.00,
+      "location": "Miami, FL",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 87,
+      "fraudIndicators": [
+        "UNUSUAL_AMOUNT",
+        "UNUSUAL_LOCATION",
+        "UNUSUAL_TIME",
+        "AMOUNT_SPIKE"
+      ],
+      "status": "SUSPICIOUS",
+      "alertSent": true,
+      "alertTimestamp": "2024-02-05T03:47:42Z",
+      "analysisDetails": {
+        "amountDeviation": "17.9x average transaction",
+        "locationMatch": "No - 1,280 miles from typical location",
+        "merchantFamiliar": "Category familiar, merchant new",
+        "timePattern": "Unusual - 3:47 AM (outside normal hours)",
+        "velocityCheck": "Fail - Large transaction after midnight",
+        "riskFactors": [
+          "Transaction amount 17.9x customer average",
+          "Location 1,280 miles from home",
+          "Transaction at 3:47 AM (customer typically inactive 11 PM - 7 AM)",
+          "No prior transactions in Miami, FL",
+          "Gas station purchases typically $45-65"
+        ]
+      },
+      "recommendedAction": "BLOCK_AND_VERIFY",
+      "customerNotification": {
+        "sent": true,
+        "channels": ["SMS", "Email", "Push"],
+        "message": "Suspicious transaction detected: $850.00 at Shell Gas Station in Miami, FL. If this wasn't you, reply FRAUD immediately."
+      }
+    },
+    {
+      "transactionId": "TXN-20240205-002",
+      "date": "2024-02-05T04:15:33Z",
+      "merchant": "Walmart Supercenter",
+      "merchantCategory": "Retail",
+      "amount": 1247.50,
+      "location": "Miami, FL",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 95,
+      "fraudIndicators": [
+        "UNUSUAL_AMOUNT",
+        "UNUSUAL_LOCATION",
+        "UNUSUAL_TIME",
+        "HIGH_VELOCITY",
+        "AMOUNT_SPIKE"
+      ],
+      "status": "BLOCKED",
+      "alertSent": true,
+      "alertTimestamp": "2024-02-05T04:15:35Z",
+      "analysisDetails": {
+        "amountDeviation": "26.3x average transaction",
+        "locationMatch": "No - Same suspicious location",
+        "merchantFamiliar": "No",
+        "timePattern": "Unusual - 4:15 AM",
+        "velocityCheck": "Fail - Second large transaction within 30 minutes",
+        "riskFactors": [
+          "Transaction amount 26.3x customer average",
+          "Second transaction in Miami, FL within 30 minutes",
+          "Transaction at 4:15 AM",
+          "Total spending in 30 minutes: $2,097.50 (73% of monthly average)",
+          "Pattern matches known fraud behavior"
+        ]
+      },
+      "recommendedAction": "BLOCK_IMMEDIATELY",
+      "transactionBlocked": true,
+      "blockReason": "High fraud probability - Multiple risk indicators",
+      "customerNotification": {
+        "sent": true,
+        "channels": ["SMS", "Email", "Push", "Phone Call"],
+        "message": "URGENT: We blocked a $1,247.50 transaction at Walmart in Miami, FL due to suspected fraud. Please call us immediately at 1-800-BANK-HELP."
+      }
+    },
+    {
+      "transactionId": "TXN-20240207-001",
+      "date": "2024-02-07T09:30:15Z",
+      "merchant": "Local Coffee Shop",
+      "merchantCategory": "Restaurant",
+      "amount": 8.50,
+      "location": "New York, NY",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 3,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Normal",
+        "locationMatch": "Yes - Back to normal location",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass",
+        "note": "Customer confirmed previous transactions were fraud. Card replaced."
+      }
+    },
+    {
+      "transactionId": "TXN-20240210-001",
+      "date": "2024-02-10T18:45:22Z",
+      "merchant": "Best Buy",
+      "merchantCategory": "Electronics",
+      "amount": 1899.99,
+      "location": "New York, NY",
+      "transactionType": "Credit Card",
+      "fraudRiskScore": 68,
+      "fraudIndicators": [
+        "UNUSUAL_AMOUNT",
+        "NEW_MERCHANT_CATEGORY"
+      ],
+      "status": "PENDING_VERIFICATION",
+      "alertSent": true,
+      "alertTimestamp": "2024-02-10T18:45:55Z",
+      "analysisDetails": {
+        "amountDeviation": "40x average transaction",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "No - First electronics purchase",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass",
+        "riskFactors": [
+          "Large purchase amount",
+          "New merchant category (Electronics)",
+          "High-value item category"
+        ]
+      },
+      "recommendedAction": "VERIFY_WITH_CUSTOMER",
+      "customerNotification": {
+        "sent": true,
+        "channels": ["SMS", "Push"],
+        "message": "Did you just make a $1,899.99 purchase at Best Buy? Reply YES to approve or NO if this wasn't you.",
+        "customerResponse": "YES",
+        "responseTimestamp": "2024-02-10T18:47:10Z"
+      },
+      "verificationResult": "APPROVED_BY_CUSTOMER"
+    },
+    {
+      "transactionId": "TXN-20240215-001",
+      "date": "2024-02-15T11:20:00Z",
+      "merchant": "Target",
+      "merchantCategory": "Retail",
+      "amount": 156.78,
+      "location": "Brooklyn, NY",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 15,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Slightly above average",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass"
+      }
+    },
+    {
+      "transactionId": "TXN-20240220-001",
+      "date": "2024-02-20T23:55:47Z",
+      "merchant": "Online Gaming Store",
+      "merchantCategory": "Digital Goods",
+      "amount": 499.99,
+      "location": "Online",
+      "transactionType": "Credit Card",
+      "fraudRiskScore": 72,
+      "fraudIndicators": [
+        "UNUSUAL_MERCHANT_CATEGORY",
+        "UNUSUAL_TIME",
+        "UNUSUAL_AMOUNT"
+      ],
+      "status": "SUSPICIOUS",
+      "alertSent": true,
+      "alertTimestamp": "2024-02-20T23:56:15Z",
+      "analysisDetails": {
+        "amountDeviation": "10.5x average transaction",
+        "locationMatch": "N/A",
+        "merchantFamiliar": "No - First digital goods purchase",
+        "timePattern": "Unusual - Late night purchase",
+        "velocityCheck": "Pass",
+        "riskFactors": [
+          "New merchant category (Digital Goods)",
+          "Late night transaction (11:55 PM)",
+          "High amount for new category",
+          "Digital goods are high-risk for fraud"
+        ]
+      },
+      "recommendedAction": "VERIFY_WITH_CUSTOMER",
+      "customerNotification": {
+        "sent": true,
+        "channels": ["SMS", "Email"],
+        "message": "We noticed a $499.99 purchase at Online Gaming Store. Was this you? Reply YES or NO.",
+        "customerResponse": "NO",
+        "responseTimestamp": "2024-02-21T00:05:22Z"
+      },
+      "verificationResult": "FRAUD_CONFIRMED",
+      "actionTaken": "Transaction reversed, card blocked, new card issued"
+    },
+    {
+      "transactionId": "TXN-20240225-001",
+      "date": "2024-02-25T15:30:00Z",
+      "merchant": "CVS Pharmacy",
+      "merchantCategory": "Pharmacy",
+      "amount": 42.15,
+      "location": "New York, NY",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 6,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Normal",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass"
+      }
+    }
+  ],
+  "statementSummary": {
+    "totalTransactions": 10,
+    "totalAmount": 4929.54,
+    "legitimateTransactions": 7,
+    "legitimateAmount": 2381.06,
+    "suspiciousTransactions": 2,
+    "suspiciousAmount": 2097.50,
+    "blockedTransactions": 1,
+    "blockedAmount": 1247.50,
+    "fraudConfirmed": 2,
+    "fraudAmount": 1349.99,
+    "fraudPrevented": 1247.50,
+    "fraudLoss": 850.00,
+    "fraudPreventionRate": "59.4%"
+  },
+  "fraudAnalysisSummary": {
+    "analysisDate": "2024-03-01T10:00:00Z",
+    "riskLevel": "HIGH",
+    "fraudIncidents": [
+      {
+        "incidentId": "FRAUD-2024-001",
+        "date": "2024-02-05",
+        "transactions": ["TXN-20240205-001", "TXN-20240205-002"],
+        "totalAmount": 2097.50,
+        "location": "Miami, FL",
+        "status": "One blocked, one completed",
+        "resolution": "Card replaced, $850 loss, $1,247.50 prevented"
+      },
+      {
+        "incidentId": "FRAUD-2024-002",
+        "date": "2024-02-20",
+        "transactions": ["TXN-20240220-001"],
+        "totalAmount": 499.99,
+        "location": "Online",
+        "status": "Reversed after customer confirmation",
+        "resolution": "Transaction reversed, no loss"
+      }
+    ],
+    "detectionMetrics": {
+      "averageDetectionTime": "28 seconds",
+      "customerResponseTime": "8 minutes average",
+      "falsePositiveRate": "10%",
+      "truePositiveRate": "100%",
+      "blockedFraudRate": "50%"
+    },
+    "recommendations": [
+      "Enable travel notifications for out-of-state transactions",
+      "Set transaction limits for late-night purchases",
+      "Enable two-factor authentication for online purchases over $200",
+      "Review and update spending patterns quarterly"
+    ],
+    "mlModelPerformance": {
+      "modelVersion": "FraudDetect-v2.1.0",
+      "accuracy": "96.2%",
+      "precision": "90.0%",
+      "recall": "100.0%",
+      "f1Score": "94.7%",
+      "lastTrainingDate": "2024-01-15"
+    }
+  },
+  "customerActions": {
+    "fraudReported": true,
+    "reportDate": "2024-02-05T08:30:00Z",
+    "cardReplaced": true,
+    "replacementCardIssued": "2024-02-06",
+    "disputesFiledCount": 2,
+    "disputesResolvedCount": 2,
+    "refundAmount": 850.00,
+    "refundStatus": "Processed"
+  }
+}
