@@ -292,13 +292,70 @@
         "timePattern": "Normal",
         "velocityCheck": "Pass"
       }
+    },
+    {
+      "transactionId": "TXN-20240227-001",
+      "date": "2024-02-27T10:15:30Z",
+      "merchant": "Apple Store",
+      "merchantCategory": "Electronics",
+      "amount": 2499.00,
+      "location": "New York, NY",
+      "transactionType": "Credit Card",
+      "fraudRiskScore": 65,
+      "fraudIndicators": [
+        "UNUSUAL_AMOUNT",
+        "HIGH_VALUE_ELECTRONICS"
+      ],
+      "status": "VERIFIED",
+      "alertSent": true,
+      "alertTimestamp": "2024-02-27T10:16:00Z",
+      "analysisDetails": {
+        "amountDeviation": "52.6x average transaction",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "No - Second electronics purchase this month",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass",
+        "riskFactors": [
+          "High-value electronics purchase",
+          "Second large electronics purchase in 17 days",
+          "Amount significantly above average"
+        ]
+      },
+      "recommendedAction": "VERIFY_WITH_CUSTOMER",
+      "customerNotification": {
+        "sent": true,
+        "channels": ["SMS", "Push"],
+        "message": "Did you make a $2,499.00 purchase at Apple Store? Reply YES to approve.",
+        "customerResponse": "YES",
+        "responseTimestamp": "2024-02-27T10:18:45Z"
+      },
+      "verificationResult": "APPROVED_BY_CUSTOMER"
+    },
+    {
+      "transactionId": "TXN-20240228-001",
+      "date": "2024-02-28T16:45:00Z",
+      "merchant": "Trader Joe's",
+      "merchantCategory": "Grocery",
+      "amount": 98.45,
+      "location": "Brooklyn, NY",
+      "transactionType": "Debit Card",
+      "fraudRiskScore": 7,
+      "fraudIndicators": [],
+      "status": "LEGITIMATE",
+      "analysisDetails": {
+        "amountDeviation": "Normal",
+        "locationMatch": "Yes",
+        "merchantFamiliar": "Yes",
+        "timePattern": "Normal",
+        "velocityCheck": "Pass"
+      }
     }
   ],
   "statementSummary": {
-    "totalTransactions": 10,
-    "totalAmount": 4929.54,
-    "legitimateTransactions": 7,
-    "legitimateAmount": 2381.06,
+    "totalTransactions": 12,
+    "totalAmount": 7526.99,
+    "legitimateTransactions": 9,
+    "legitimateAmount": 4978.51,
     "suspiciousTransactions": 2,
     "suspiciousAmount": 2097.50,
     "blockedTransactions": 1,
@@ -307,7 +364,9 @@
     "fraudAmount": 1349.99,
     "fraudPrevented": 1247.50,
     "fraudLoss": 850.00,
-    "fraudPreventionRate": "59.4%"
+    "fraudPreventionRate": "59.4%",
+    "verifiedTransactions": 2,
+    "verifiedAmount": 4398.99
   },
   "fraudAnalysisSummary": {
     "analysisDate": "2024-03-01T10:00:00Z",
