@@ -1,6 +1,13 @@
-# 🛡️ Fraud Detection Analyzer - Streamlit App
+# 🛡️ Fraud Detection Analyzer - Truist Bob Challenge Submission
 
-A powerful, interactive fraud detection system built with Streamlit that analyzes bank transactions in real-time.
+A powerful, interactive fraud detection system built with Streamlit that analyzes bank transactions in real-time. This project is part of the Truist Bob Challenge submission.
+
+## 📦 Submission Package
+
+This repository contains the complete Truist Bob Challenge submission including:
+- **Truist_Bob_Challengers.zip** - Complete submission package
+- All source code and documentation
+- Presentation materials and demonstrations
 
 ## 🚀 Features
 
